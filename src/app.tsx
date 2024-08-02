@@ -1,7 +1,15 @@
 import "./css/output.css";
 import React from "react";
 
+import { useResizeObserver } from "usehooks-ts";
+
 function App() {
+  const el = document.querySelector<HTMLElement>(".Root__main-view");
+  const ref = React.useRef<HTMLElement>(el);
+  const { width = 0, height = 0 } = useResizeObserver({
+    ref,
+  });
+
   const [isFetching, setIsFetching] = React.useState(true);
   const [artists, setArtists] = React.useState<string[]>(
     JSON.parse(Spicetify.LocalStorage.get("artists")!) || [],
@@ -67,21 +75,34 @@ function App() {
   }, [isFetching]);
 
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center gap-6 overflow-auto p-10">
-      {/* <div className="text-5xl">My Custom App!</div> */}
-      <div className="relative grid w-full grid-cols-[25%,75%] items-start overflow-auto">
-        <div className="flex max-h-[72vh] cursor-pointer flex-col overflow-auto">
-          {artists.map((artist) => (
-            <div key={artist} className="p-4 hover:bg-white/20">
-              {artist}
-            </div>
-          ))}
+    <div className="flex h-full w-full flex-col items-start gap-6 pt-10">
+      <div className="px-10 text-5xl">Better Artists View</div>
+      <div className="relative flex w-full flex-row-reverse items-start">
+        <div className="absolute left-0 flex h-min w-1/4 cursor-pointer overflow-auto">
+          <div className="flex w-full flex-col">
+            {artists.map((artist) => (
+              <div key={artist} className="p-4 hover:bg-white/20">
+                {artist}
+              </div>
+            ))}
+          </div>
         </div>
-        <div className="sticky flex w-full flex-col gap-4 bg-blue-400">
+        <div className="flex h-full w-3/4 flex-col gap-4 bg-blue-900 p-10">
           <div className="text-3xl">Albums count: {albums.length}</div>
           <a href={albums[0]?.album?.uri}>
             {JSON.stringify(albums[0]?.album?.uri)}
           </a>
+          <h1 className="text-3xl">Width: {width}</h1>
+          <h1 className="text-3xl">Height: {height}</h1>
+          <Spicetify.ReactComponent.ButtonPrimary>
+            asdasd
+          </Spicetify.ReactComponent.ButtonPrimary>
+          <Spicetify.ReactComponent.Menu>
+            <Spicetify.ReactComponent.MenuItem>
+              adadas
+            </Spicetify.ReactComponent.MenuItem>
+          </Spicetify.ReactComponent.Menu>
+          <Spicetify.ReactComponent.PlaylistMenu></Spicetify.ReactComponent.PlaylistMenu>
         </div>
       </div>
     </div>
