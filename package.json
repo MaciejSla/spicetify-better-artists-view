@@ -1,0 +1,24 @@
+{
+  "name": "better-artists",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "spicetify-creator",
+    "build-local": "spicetify-creator --out=../better-artists --minify",
+    "watch": "spicetify-creator --watch",
+    "watch-local": "spicetify-creator --watch --out=../better-artists --minify",
+    "watch-tailwind": "tailwindcss -i ./src/css/input.css -o ./src/css/output.css --watch"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "prettier": "3.3.3",
+    "prettier-plugin-tailwindcss": "^0.6.5",
+    "spicetify-creator": "^1.0.17",
+    "tailwindcss": "^3.4.7"
+  },
+  "dependencies": {
+    "usehooks-ts": "^3.1.0"
+  }
+}
