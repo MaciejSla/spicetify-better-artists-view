@@ -120,6 +120,7 @@ export default function MainView() {
           className="absolute left-0 flex w-1/4 cursor-pointer overflow-auto"
           style={mainContentPosition}
         >
+          {/* TODO: add highlight and scroll to the selected artist */}
           <div className="flex w-full flex-col gap-1">
             {artists.map((artist) => (
               <button
