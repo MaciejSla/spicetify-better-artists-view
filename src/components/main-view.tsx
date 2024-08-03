@@ -31,8 +31,6 @@ export default function MainView() {
     [],
   );
 
-  const [selectedArtist, setSelectedArtist] = useState<string>("");
-
   const [filteredAlbums, setFilteredAlbums] = useState<ResponseItem[]>([]);
 
   const getAlbumsByArtist = (artist: string) => {
@@ -48,9 +46,16 @@ export default function MainView() {
   };
 
   useEffect(() => {
-    if (selectedArtist === "") return;
-    setFilteredAlbums(getAlbumsByArtist(selectedArtist));
-  }, [selectedArtist]);
+    const artist = new URLSearchParams(
+      Spicetify.Platform.History.location.search,
+    ).get("artist");
+    if (artist) setFilteredAlbums(getAlbumsByArtist(artist));
+    else setFilteredAlbums([]);
+  }, [Spicetify.Platform.History.location.search]);
+
+  const setArtist = (artist: string) => {
+    Spicetify.Platform.History.push(`/better-artists/?artist=${artist}`);
+  };
 
   const opts = {
     headers: {
@@ -120,7 +125,7 @@ export default function MainView() {
               <button
                 key={artist}
                 className="rounded-md p-3 text-start hover:bg-[#1f1f1f]"
-                onClick={() => setSelectedArtist(artist)}
+                onClick={() => setArtist(artist)}
               >
                 {artist}
               </button>
