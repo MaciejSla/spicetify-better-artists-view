@@ -566,6 +566,10 @@ video {
   left: 0px;
 }
 
+.m-2 {
+  margin: 0.5rem;
+}
+
 .line-clamp-1 {
   overflow: hidden;
   display: -webkit-box;
@@ -583,6 +587,11 @@ video {
 
 .aspect-square {
   aspect-ratio: 1 / 1;
+}
+
+.size-full {
+  width: 100%;
+  height: 100%;
 }
 
 .h-full {
@@ -637,6 +646,10 @@ video {
   align-items: center;
 }
 
+.justify-center {
+  justify-content: center;
+}
+
 .justify-between {
   justify-content: space-between;
 }
@@ -661,6 +674,93 @@ video {
   border-radius: 0.375rem;
 }
 
+.bg-spice-main {
+  background-color: var(--spice-main);
+}
+
+.bg-spice-text {
+  background-color: var(--spice-text);
+}
+
+.bg-spice-subtext {
+  background-color: var(--spice-subtext);
+}
+
+.bg-spice-main-elevated {
+  background-color: var(--spice-main-elevated);
+}
+
+.bg-spice-highlight {
+  background-color: var(--spice-highlight);
+}
+
+.bg-spice-highlight-elevated {
+  background-color: var(--spice-highlight-elevated);
+}
+
+.bg-spice-sidebar {
+  background-color: var(--spice-sidebar);
+}
+
+.bg-spice-player {
+  background-color: var(--spice-player);
+}
+
+.bg-spice-card {
+  background-color: var(--spice-card);
+}
+
+.bg-spice-shadow {
+  background-color: var(--spice-shadow);
+}
+
+.bg-spice-selected-row {
+  background-color: var(--spice-selected-row);
+}
+
+.bg-spice-button {
+  background-color: var(--spice-button);
+}
+
+.bg-spice-button-active {
+  background-color: var(--spice-button-active);
+}
+
+.bg-spice-button-disabled {
+  background-color: var(--spice-button-disabled);
+}
+
+.bg-spice-tab-active {
+  background-color: var(--spice-tab-active);
+}
+
+.bg-spice-misc {
+  background-color: var(--spice-misc);
+}
+
+.bg-spice-notification {
+  background-color: var(--spice-notification);
+}
+
+.bg-spice-notification-error {
+  background-color: var(--spice-notification-error);
+}
+
+.bg-black {
+  --tw-bg-opacity: 1;
+  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
+}
+
+.bg-white {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
+.bg-clip-text {
+  -webkit-background-clip: text;
+          background-clip: text;
+}
+
 .p-3 {
   padding: 0.75rem;
 }
@@ -669,13 +769,26 @@ video {
   padding: 1rem;
 }
 
+.p-1 {
+  padding: 0.25rem;
+}
+
 .px-10 {
   padding-left: 2.5rem;
   padding-right: 2.5rem;
 }
 
+.py-20 {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
 .pb-6 {
   padding-bottom: 1.5rem;
+}
+
+.text-center {
+  text-align: center;
 }
 
 .text-start {
@@ -702,13 +815,80 @@ video {
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
+.text-spice-text {
+  color: var(--spice-text);
+}
+
+.text-spice-subtext {
+  color: var(--spice-subtext);
+}
+
+.text-blue-900 {
+  --tw-text-opacity: 1;
+  color: rgb(30 58 138 / var(--tw-text-opacity));
+}
+
+.text-transparent {
+  color: transparent;
+}
+
+.text-black {
+  --tw-text-opacity: 1;
+  color: rgb(0 0 0 / var(--tw-text-opacity));
+}
+
+.mix-blend-multiply {
+  mix-blend-mode: multiply;
+}
+
+.mix-blend-darken {
+  mix-blend-mode: darken;
+}
+
+.mix-blend-lighten {
+  mix-blend-mode: lighten;
+}
+
+.mix-blend-difference {
+  mix-blend-mode: difference;
+}
+
+.mix-blend-exclusion {
+  mix-blend-mode: exclusion;
+}
+
+.shadow {
+  --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.drop-shadow {
+  --tw-drop-shadow: drop-shadow(0 1px 2px rgb(0 0 0 / 0.1)) drop-shadow(0 1px 1px rgb(0 0 0 / 0.06));
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+
+.drop-shadow-2xl {
+  --tw-drop-shadow: drop-shadow(0 25px 25px rgb(0 0 0 / 0.15));
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+
+.invert-\[1\] {
+  --tw-invert: invert(1);
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+
+.filter {
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+
 .hover\:bg-\[\#1f1f1f\]:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(31 31 31 / var(--tw-bg-opacity));
 }
 
-.hover\:bg-\[var\(--spice-highlight\)\]:hover {
-  background-color: var(--spice-highlight);
+.hover\:bg-spice-card:hover {
+  background-color: var(--spice-card);
 }
 
 .hover\:bg-spice-highlight:hover {
