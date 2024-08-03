@@ -19,6 +19,7 @@
     "tailwindcss": "^3.4.7"
   },
   "dependencies": {
+    "tippy.js": "^6.3.7",
     "usehooks-ts": "^3.1.0"
   }
 }

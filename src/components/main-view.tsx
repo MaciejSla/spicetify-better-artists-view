@@ -1,6 +1,7 @@
 import { useResizeObserver } from "usehooks-ts";
 import { Response, ResponseItem } from "../types/fetch";
 import React, { useRef, useState, useEffect } from "react";
+import { delegate } from "tippy.js";
 
 export default function MainView() {
   const el = document.querySelector<HTMLElement>(".Root__main-view");
@@ -97,8 +98,10 @@ export default function MainView() {
     setArtists(artists);
   }, [isFetching]);
 
-  // TODO figure out why this needs a double click on artist to work
-  Spicetify.Tippy("[data-tippy-content]", Spicetify.TippyProps);
+  delegate("#tippy-root", {
+    target: "[data-tippy-content]",
+    ...Spicetify.TippyProps,
+  });
 
   return (
     <div className="relative flex h-full w-full flex-col items-start gap-6">
@@ -130,6 +133,7 @@ export default function MainView() {
           <div className="text-3xl">Albums count: {albums.length}</div>
           <div>Width: {wMain}</div>
           <div
+            id="tippy-root"
             className={`grid items-start gap-6 ${
               wMain > 1100
                 ? "grid-cols-4"
@@ -141,11 +145,7 @@ export default function MainView() {
             }`}
           >
             {filteredAlbums.map((album) => (
-              <div
-                key={album.album.id}
-                className="group"
-                data-tippy-content={album.album.name}
-              >
+              <div key={album.album.id} className="group">
                 <a href={album.album.uri}>
                   <img
                     src={album.album.images ? album.album.images[1].url : ""}
@@ -153,7 +153,10 @@ export default function MainView() {
                     className="aspect-square w-full"
                   />
                 </a>
-                <div className="flex w-full items-start justify-between">
+                <div
+                  className="flex w-full items-start justify-between"
+                  data-tippy-content={album.album.name}
+                >
                   <a
                     href={album.album.uri}
                     className="line-clamp-2 text-lg text-white group-hover:underline"
