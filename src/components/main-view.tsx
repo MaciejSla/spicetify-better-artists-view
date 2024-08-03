@@ -4,6 +4,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { delegate } from "tippy.js";
 
 const LOCAL_STORAGE_PREFIX = "better-artists";
+const ALBUM_FETCH_URL = "https://api.spotify.com/v1/me/albums?limit=50";
 
 export default function MainView() {
   const el = document.querySelector<HTMLElement>(".Root__main-view");
@@ -64,9 +65,7 @@ export default function MainView() {
   };
 
   const [state, setState] = useState<ResponseItem[]>([]);
-  const [url, setUrl] = useState<string | null>(
-    "https://api.spotify.com/v1/me/albums?limit=50",
-  );
+  const [url, setUrl] = useState<string | null>(ALBUM_FETCH_URL);
 
   useEffect(() => {
     if (url) {
@@ -104,6 +103,15 @@ export default function MainView() {
     setArtists(artists);
   }, [isFetching]);
 
+  const clearCache = () => {
+    removeArtists();
+    removeAlbums();
+    setState([]);
+    setFilteredAlbums([]);
+    setIsFetching(true);
+    setUrl(ALBUM_FETCH_URL);
+  };
+
   delegate("#tippy-root", {
     target: "[data-tippy-content]",
     ...Spicetify.TippyProps,
@@ -137,7 +145,12 @@ export default function MainView() {
           className="absolute flex h-full w-3/4 flex-col gap-4 overflow-auto px-10 pb-6"
           style={mainContentPosition}
         >
-          <div className="text-3xl">Albums count: {albums.length}</div>
+          <div className="flex w-full items-center justify-between">
+            <div className="text-3xl">Albums count: {albums.length}</div>
+            <Spicetify.ReactComponent.ButtonTertiary onClick={clearCache}>
+              Clear cache
+            </Spicetify.ReactComponent.ButtonTertiary>
+          </div>
           <div>Width: {wMain}</div>
           <div
             id="tippy-root"
