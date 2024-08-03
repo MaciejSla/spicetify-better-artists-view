@@ -119,7 +119,7 @@ export default function MainView() {
             {artists.map((artist) => (
               <button
                 key={artist}
-                className="rounded-md p-3 text-start hover:bg-white/20"
+                className="rounded-md p-3 text-start hover:bg-[#1f1f1f]"
                 onClick={() => setSelectedArtist(artist)}
               >
                 {artist}
