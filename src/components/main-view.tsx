@@ -154,17 +154,17 @@ export default function MainView() {
                     className="aspect-square w-full"
                   />
                 </a>
-                <div
-                  className="flex w-full items-start justify-between"
-                  data-tippy-content={album.album.name}
-                >
+                <div className="flex w-full items-start justify-between">
                   <a
                     href={album.album.uri}
-                    className="line-clamp-2 text-lg text-white group-hover:underline"
+                    data-tippy-content={album.album.name}
+                    className="line-clamp-2 text-base text-white group-hover:underline"
                   >
                     {album.album.name}
                   </a>
-                  <h3>{new Date(album.album.release_date).getFullYear()}</h3>
+                  <h3 data-tippy-content={album.album.release_date}>
+                    {new Date(album.album.release_date).getFullYear()}
+                  </h3>
                 </div>
               </div>
             ))}
