@@ -2,6 +2,7 @@ import "./css/output.css";
 import React from "react";
 
 import { useResizeObserver } from "usehooks-ts";
+import { Response, ResponseItem } from "./types/fetch";
 
 function App() {
   const el = document.querySelector<HTMLElement>(".Root__main-view");
@@ -21,32 +22,26 @@ function App() {
   );
 
   // TODO figure out a better way to cache data
-  const [albums, setAlbums] = React.useState<
-    {
-      added_at: string;
-      album: Spicetify.Album & {
-        id: string;
-        artists: Spicetify.ArtistsEntity[];
-      };
-    }[]
-  >(JSON.parse(Spicetify.LocalStorage.get("better-artists")!) || []);
+  const [albums, setAlbums] = React.useState<ResponseItem[]>(
+    JSON.parse(Spicetify.LocalStorage.get("better-artists")!) || [],
+  );
 
   const [selectedArtist, setSelectedArtist] = React.useState<string>("");
 
-  const [filteredAlbums, setFilteredAlbums] = React.useState<
-    {
-      added_at: string;
-      album: Spicetify.Album & {
-        id: string;
-        artists: Spicetify.ArtistsEntity[];
-      };
-    }[]
-  >([]);
+  const [filteredAlbums, setFilteredAlbums] = React.useState<ResponseItem[]>(
+    [],
+  );
 
   const getAlbumsByArtist = (artist: string) => {
-    return albums.filter((album) =>
-      album.album.artists.map((a) => a.name).includes(artist),
-    );
+    return albums
+      .filter(
+        (album) => album.album.artists.map((a) => a.name).join(", ") === artist,
+      )
+      .sort(
+        (a, b) =>
+          new Date(b.album.release_date).getTime() -
+          new Date(a.album.release_date).getTime(),
+      );
   };
 
   React.useEffect(() => {
@@ -60,16 +55,8 @@ function App() {
     },
   };
 
-  const [state, setState] = React.useState<
-    {
-      added_at: string;
-      album: Spicetify.Album & {
-        id: string;
-        artists: Spicetify.ArtistsEntity[];
-      };
-    }[]
-  >([]);
-  const [url, setUrl] = React.useState(
+  const [state, setState] = React.useState<ResponseItem[]>([]);
+  const [url, setUrl] = React.useState<string | null>(
     "https://api.spotify.com/v1/me/albums?limit=50",
   );
 
@@ -79,7 +66,7 @@ function App() {
         .then((response) => {
           return response.json();
         })
-        .then((data) => {
+        .then((data: Response) => {
           setState((state) => state.concat(data.items));
           setUrl(data.next);
           console.log(data);
@@ -95,7 +82,15 @@ function App() {
   React.useEffect(() => {
     if (isFetching) return;
     const artists: string[] = Array.from(
-      new Set(state.map((item) => item.album.artists[0].name)),
+      new Set(
+        // TODO try to make artist grouping more customizable
+        // state.map((item) => {
+        //   const artists = item.album.artists.map((a) => a as Artist);
+        //   console.log("Artists", artists);
+        //   return item.album.artists[0].name;
+        // }),
+        state.map((item) => item.album.artists.map((a) => a.name).join(", ")),
+      ),
     ).sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
 
     Spicetify.LocalStorage.set("artists", JSON.stringify(artists));
@@ -139,7 +134,10 @@ function App() {
             <div className="text-3xl">Albums count: {albums.length}</div>
             {filteredAlbums.map((album) => (
               <a key={album.album.id} href={album.album.uri}>
-                <img src={album.album.images[1].url} alt={album.album.name} />
+                <img
+                  src={album.album.images ? album.album.images[1].url : ""}
+                  alt={album.album.name}
+                />
                 <h1>{album.album.name}</h1>
               </a>
             ))}
