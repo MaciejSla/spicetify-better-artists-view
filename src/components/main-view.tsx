@@ -2,6 +2,7 @@ import { useResizeObserver, useLocalStorage } from "usehooks-ts";
 import { Response, ResponseItem } from "../types/fetch";
 import React, { useRef, useState, useEffect } from "react";
 import { delegate } from "tippy.js";
+import { getCurrentArtist, getAlbumsByArtist } from "../utils/fetchHelpers";
 
 const LOCAL_STORAGE_PREFIX = "better-artists";
 const ALBUM_FETCH_URL = "https://api.spotify.com/v1/me/albums?limit=50";
@@ -34,23 +35,9 @@ export default function MainView() {
 
   const [filteredAlbums, setFilteredAlbums] = useState<ResponseItem[]>([]);
 
-  const getAlbumsByArtist = (artist: string) => {
-    return albums
-      .filter(
-        (album) => album.album.artists.map((a) => a.name).join(", ") === artist,
-      )
-      .sort(
-        (a, b) =>
-          new Date(b.album.release_date).getTime() -
-          new Date(a.album.release_date).getTime(),
-      );
-  };
-
   useEffect(() => {
-    const artist = new URLSearchParams(
-      Spicetify.Platform.History.location.search,
-    ).get("artist");
-    if (artist) setFilteredAlbums(getAlbumsByArtist(artist));
+    const artist = getCurrentArtist();
+    if (artist) setFilteredAlbums(getAlbumsByArtist(artist, albums));
     else setFilteredAlbums([]);
   }, [Spicetify.Platform.History.location.search]);
 
@@ -80,6 +67,7 @@ export default function MainView() {
         })
         .catch((error) => {
           console.log(error);
+          Spicetify.showNotification("Error fetching albums");
         });
     } else {
       setIsFetching(false);
