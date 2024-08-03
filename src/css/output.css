@@ -649,10 +649,6 @@ video {
   gap: 1.5rem;
 }
 
-.gap-2 {
-  gap: 0.5rem;
-}
-
 .overflow-auto {
   overflow: auto;
 }
@@ -706,32 +702,15 @@ video {
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
-.hover\:bg-white\/20:hover {
-  background-color: rgb(255 255 255 / 0.2);
-}
-
-.hover\:bg-\[\]:hover {
-  background-color: ;
-}
-
-.hover\:bg-\[\#1e1e1e\]\/10:hover {
-  background-color: rgb(30 30 30 / 0.1);
-}
-
-.hover\:bg-\[\#1e1e1e\]:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(30 30 30 / var(--tw-bg-opacity));
-}
-
 .hover\:bg-\[\#1f1f1f\]:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(31 31 31 / var(--tw-bg-opacity));
 }
 
-.group:hover .group-hover\:underline {
+.hover\:underline:hover {
   text-decoration-line: underline;
 }
 
-.peer:hover ~ .peer-hover\:underline {
-  text-decoration-line: underline;
+.hover\:no-underline:hover {
+  text-decoration-line: none;
 }

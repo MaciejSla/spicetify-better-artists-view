@@ -151,25 +151,23 @@ export default function MainView() {
             }`}
           >
             {filteredAlbums.map((album) => (
-              <div
+              <a
+                href={album.album.uri}
                 key={album.album.id}
-                className="rounded-md p-4 hover:bg-[#1f1f1f]"
+                className="flex flex-col gap-1 rounded-md p-4 hover:bg-[#1f1f1f] hover:no-underline"
               >
-                <a href={album.album.uri}>
-                  <img
-                    src={album.album.images ? album.album.images[1].url : ""}
-                    alt={album.album.name}
-                    className="aspect-square w-full"
-                  />
-                </a>
+                <img
+                  src={album.album.images ? album.album.images[1].url : ""}
+                  alt={album.album.name}
+                  className="aspect-square w-full"
+                />
                 <div className="flex w-full items-start justify-between gap-4">
-                  <a
-                    href={album.album.uri}
+                  <div
                     data-tippy-content={album.album.name}
-                    className="line-clamp-2 text-base text-white"
+                    className="line-clamp-2 text-base text-white hover:underline"
                   >
                     {album.album.name}
-                  </a>
+                  </div>
                   <h3
                     data-tippy-content={Spicetify.Locale.formatDate(
                       new Date(album.album.release_date),
@@ -183,7 +181,7 @@ export default function MainView() {
                     {new Date(album.album.release_date).getFullYear()}
                   </h3>
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         </div>
