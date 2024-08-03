@@ -154,7 +154,7 @@ export default function MainView() {
                     className="aspect-square w-full"
                   />
                 </a>
-                <div className="flex w-full items-start justify-between">
+                <div className="flex w-full items-start justify-between gap-4">
                   <a
                     href={album.album.uri}
                     data-tippy-content={album.album.name}
@@ -162,7 +162,16 @@ export default function MainView() {
                   >
                     {album.album.name}
                   </a>
-                  <h3 data-tippy-content={album.album.release_date}>
+                  <h3
+                    data-tippy-content={Spicetify.Locale.formatDate(
+                      new Date(album.album.release_date),
+                      {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                      },
+                    )}
+                  >
                     {new Date(album.album.release_date).getFullYear()}
                   </h3>
                 </div>
