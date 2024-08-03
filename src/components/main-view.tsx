@@ -12,7 +12,7 @@ export default function MainView() {
     ref: refMain,
   });
 
-  // const mainStyle = { height: hMain - 65, top: 65 };
+  const mainContentPosition = { height: hMain - 65, top: 65 };
 
   // const refHeader = useRef<HTMLDivElement>(null);
   // const { height: hHeader = 0 } = useResizeObserver({
@@ -113,7 +113,7 @@ export default function MainView() {
       <div className="flex w-full flex-row-reverse items-start">
         <div
           className="absolute left-0 flex w-1/4 cursor-pointer overflow-auto"
-          style={{ height: hMain - 65, top: 65 }}
+          style={mainContentPosition}
         >
           <div className="flex w-full flex-col gap-1">
             {artists.map((artist) => (
@@ -129,7 +129,7 @@ export default function MainView() {
         </div>
         <div
           className="absolute flex h-full w-3/4 flex-col gap-4 overflow-auto p-10"
-          style={{ height: hMain - 65, top: 65 }}
+          style={mainContentPosition}
         >
           <div className="text-3xl">Albums count: {albums.length}</div>
           <div>Width: {wMain}</div>
