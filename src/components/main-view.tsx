@@ -1,7 +1,9 @@
-import { useResizeObserver } from "usehooks-ts";
+import { useResizeObserver, useLocalStorage } from "usehooks-ts";
 import { Response, ResponseItem } from "../types/fetch";
 import React, { useRef, useState, useEffect } from "react";
 import { delegate } from "tippy.js";
+
+const LOCAL_STORAGE_PREFIX = "better-artists";
 
 export default function MainView() {
   const el = document.querySelector<HTMLElement>(".Root__main-view");
@@ -18,13 +20,15 @@ export default function MainView() {
   // });
 
   const [isFetching, setIsFetching] = useState(true);
-  const [artists, setArtists] = useState<string[]>(
-    JSON.parse(Spicetify.LocalStorage.get("artists")!) || [],
+  const [artists, setArtists, removeArtists] = useLocalStorage<string[]>(
+    `${LOCAL_STORAGE_PREFIX}:artists`,
+    [],
   );
 
   // TODO figure out a better way to cache data
-  const [albums, setAlbums] = useState<ResponseItem[]>(
-    JSON.parse(Spicetify.LocalStorage.get("better-artists")!) || [],
+  const [albums, setAlbums, removeAlbums] = useLocalStorage<ResponseItem[]>(
+    `${LOCAL_STORAGE_PREFIX}:albums`,
+    [],
   );
 
   const [selectedArtist, setSelectedArtist] = useState<string>("");
@@ -91,9 +95,6 @@ export default function MainView() {
         state.map((item) => item.album.artists.map((a) => a.name).join(", ")),
       ),
     ).sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
-
-    Spicetify.LocalStorage.set("artists", JSON.stringify(artists));
-    Spicetify.LocalStorage.set("better-artists", JSON.stringify(state));
     setAlbums(state);
     setArtists(artists);
   }, [isFetching]);
