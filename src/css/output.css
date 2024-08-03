@@ -649,6 +649,10 @@ video {
   gap: 1.5rem;
 }
 
+.gap-2 {
+  gap: 0.5rem;
+}
+
 .overflow-auto {
   overflow: auto;
 }
@@ -663,6 +667,10 @@ video {
 
 .p-3 {
   padding: 0.75rem;
+}
+
+.p-4 {
+  padding: 1rem;
 }
 
 .px-10 {
@@ -684,9 +692,9 @@ video {
   line-height: 1;
 }
 
-.text-lg {
-  font-size: 1.125rem;
-  line-height: 1.75rem;
+.text-base {
+  font-size: 1rem;
+  line-height: 1.5rem;
 }
 
 .text-white {
@@ -702,6 +710,28 @@ video {
   background-color: rgb(255 255 255 / 0.2);
 }
 
+.hover\:bg-\[\]:hover {
+  background-color: ;
+}
+
+.hover\:bg-\[\#1e1e1e\]\/10:hover {
+  background-color: rgb(30 30 30 / 0.1);
+}
+
+.hover\:bg-\[\#1e1e1e\]:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(30 30 30 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-\[\#1f1f1f\]:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(31 31 31 / var(--tw-bg-opacity));
+}
+
 .group:hover .group-hover\:underline {
+  text-decoration-line: underline;
+}
+
+.peer:hover ~ .peer-hover\:underline {
   text-decoration-line: underline;
 }

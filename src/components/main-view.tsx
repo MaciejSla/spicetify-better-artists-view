@@ -135,7 +135,7 @@ export default function MainView() {
           <div>Width: {wMain}</div>
           <div
             id="tippy-root"
-            className={`grid items-start gap-6 ${
+            className={`grid items-start ${
               wMain > 1100
                 ? "grid-cols-4"
                 : wMain > 850
@@ -146,7 +146,10 @@ export default function MainView() {
             }`}
           >
             {filteredAlbums.map((album) => (
-              <div key={album.album.id} className="group">
+              <div
+                key={album.album.id}
+                className="rounded-md p-4 hover:bg-[#1f1f1f]"
+              >
                 <a href={album.album.uri}>
                   <img
                     src={album.album.images ? album.album.images[1].url : ""}
@@ -158,7 +161,7 @@ export default function MainView() {
                   <a
                     href={album.album.uri}
                     data-tippy-content={album.album.name}
-                    className="line-clamp-2 text-base text-white group-hover:underline"
+                    className="line-clamp-2 text-base text-white"
                   >
                     {album.album.name}
                   </a>
