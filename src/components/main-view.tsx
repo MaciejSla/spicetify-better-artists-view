@@ -5,7 +5,7 @@ import React, { useRef, useState, useEffect } from "react";
 export default function MainView() {
   const el = document.querySelector<HTMLElement>(".Root__main-view");
   const refMain = useRef<HTMLElement>(el);
-  const { height: hMain = 0 } = useResizeObserver({
+  const { height: hMain = 0, width: wMain = 0 } = useResizeObserver({
     ref: refMain,
   });
 
@@ -97,6 +97,9 @@ export default function MainView() {
     setArtists(artists);
   }, [isFetching]);
 
+  // TODO figure out why this needs a double click on artist to work
+  Spicetify.Tippy("[data-tippy-content]", Spicetify.TippyProps);
+
   return (
     <div className="relative flex h-full w-full flex-col items-start gap-6">
       {/* TODO: figure out how to have a header without weird scroll */}
@@ -125,15 +128,43 @@ export default function MainView() {
           style={{ height: hMain - 65, top: 65 }}
         >
           <div className="text-3xl">Albums count: {albums.length}</div>
-          {filteredAlbums.map((album) => (
-            <a key={album.album.id} href={album.album.uri}>
-              <img
-                src={album.album.images ? album.album.images[1].url : ""}
-                alt={album.album.name}
-              />
-              <h1>{album.album.name}</h1>
-            </a>
-          ))}
+          <div>Width: {wMain}</div>
+          <div
+            className={`grid items-start gap-6 ${
+              wMain > 1100
+                ? "grid-cols-4"
+                : wMain > 850
+                  ? "grid-cols-3"
+                  : wMain > 650
+                    ? "grid-cols-2"
+                    : "grid-cols-1"
+            }`}
+          >
+            {filteredAlbums.map((album) => (
+              <div
+                key={album.album.id}
+                className="group"
+                data-tippy-content={album.album.name}
+              >
+                <a href={album.album.uri}>
+                  <img
+                    src={album.album.images ? album.album.images[1].url : ""}
+                    alt={album.album.name}
+                    className="aspect-square w-full"
+                  />
+                </a>
+                <div className="flex w-full items-start justify-between">
+                  <a
+                    href={album.album.uri}
+                    className="line-clamp-2 text-lg text-white group-hover:underline"
+                  >
+                    {album.album.name}
+                  </a>
+                  <h3>{new Date(album.album.release_date).getFullYear()}</h3>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
