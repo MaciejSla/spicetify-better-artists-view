@@ -106,7 +106,7 @@ export default function MainView() {
   });
 
   return (
-    <div className="relative flex h-full w-full flex-col items-start gap-6">
+    <div className="relative flex h-full w-full flex-col items-start gap-6 text-spice-subtext">
       {/* TODO: figure out how to have a header without weird scroll */}
       {/* <div className="px-10 text-5xl" ref={refHeader}>
           Better Artists View
@@ -121,7 +121,7 @@ export default function MainView() {
             {artists.map((artist) => (
               <button
                 key={artist}
-                className="rounded-md p-3 text-start hover:bg-[#1f1f1f]"
+                className="rounded-md p-3 text-start hover:bg-spice-card"
                 onClick={() => setArtist(artist)}
               >
                 {artist}
@@ -156,7 +156,7 @@ export default function MainView() {
               <a
                 href={album.album.uri}
                 key={album.album.id}
-                className="flex h-full flex-col gap-1 rounded-md p-4 hover:bg-[#1f1f1f] hover:no-underline"
+                className="flex h-full flex-col gap-1 rounded-md p-4 hover:bg-spice-highlight hover:no-underline"
               >
                 <img
                   src={album.album.images ? album.album.images[1].url : ""}
@@ -166,7 +166,7 @@ export default function MainView() {
                 <div className="flex flex-col gap-1">
                   <div
                     data-tippy-content={album.album.name}
-                    className="line-clamp-1 text-base text-white hover:underline"
+                    className="line-clamp-1 text-base text-spice-text hover:underline"
                   >
                     {album.album.name}
                   </div>
