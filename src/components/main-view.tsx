@@ -134,7 +134,7 @@ export default function MainView() {
           </div>
         </div>
         <div
-          className="absolute flex h-full w-3/4 flex-col gap-4 overflow-auto p-10"
+          className="absolute flex h-full w-3/4 flex-col gap-4 overflow-auto px-10 pb-6"
           style={mainContentPosition}
         >
           <div className="text-3xl">Albums count: {albums.length}</div>
