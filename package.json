@@ -6,8 +6,8 @@
     "build": "spicetify-creator",
     "build-local": "spicetify-creator --out=../better-artists --minify",
     "watch": "spicetify-creator --watch",
-    "watch-local": "spicetify-creator --watch --out=../better-artists --minify",
-    "watch-tailwind": "tailwindcss -i ./src/css/input.css -o ./src/css/output.css --watch"
+    "w:local": "spicetify-creator --watch --out=../better-artists --minify",
+    "w:tailwind": "tailwindcss -i ./src/css/input.css -o ./src/css/output.css --watch"
   },
   "license": "MIT",
   "devDependencies": {
