@@ -156,17 +156,17 @@ export default function MainView() {
               <a
                 href={album.album.uri}
                 key={album.album.id}
-                className="flex flex-col gap-1 rounded-md p-4 hover:bg-[#1f1f1f] hover:no-underline"
+                className="flex h-full flex-col gap-1 rounded-md p-4 hover:bg-[#1f1f1f] hover:no-underline"
               >
                 <img
                   src={album.album.images ? album.album.images[1].url : ""}
                   alt={album.album.name}
-                  className="aspect-square w-full"
+                  className="aspect-square w-full rounded-md"
                 />
-                <div className="flex w-full items-start justify-between gap-4">
+                <div className="flex flex-col gap-1">
                   <div
                     data-tippy-content={album.album.name}
-                    className="line-clamp-2 text-base text-white hover:underline"
+                    className="line-clamp-1 text-base text-white hover:underline"
                   >
                     {album.album.name}
                   </div>
