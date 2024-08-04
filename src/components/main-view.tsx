@@ -188,7 +188,14 @@ export default function MainView() {
                 )}
                 onClick={() => setArtist(result.target)}
               >
-                {result.target}
+                <span
+                  dangerouslySetInnerHTML={{
+                    __html: result.highlight(
+                      '<span class="font-bold text-spice-text">',
+                      "</span>",
+                    ),
+                  }}
+                ></span>
               </button>
             ))}
           </div>
