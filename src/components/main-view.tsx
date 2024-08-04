@@ -4,6 +4,7 @@ import React, { useRef, useState, useEffect, useMemo } from "react";
 import { delegate } from "tippy.js";
 import { getCurrentArtist, getAlbumsByArtist } from "../utils/fetchHelpers";
 import { cn } from "../utils/general";
+import { SearchIcon } from "./icons";
 
 const LOCAL_STORAGE_PREFIX = "better-artists";
 const ALBUM_FETCH_URL = "https://api.spotify.com/v1/me/albums?limit=50";
@@ -141,11 +142,20 @@ export default function MainView() {
         </div> */}
       <div className="flex w-full flex-row-reverse items-start">
         <div
-          className="absolute left-0 flex w-1/4 cursor-pointer overflow-auto"
+          className="absolute left-0 flex w-1/4 flex-col gap-2 pl-1"
           style={mainContentPosition}
         >
           {/* TODO: add highlight and scroll to the selected artist */}
-          <div className="flex w-full flex-col gap-1">
+          <div className="group flex items-center gap-2 rounded-full bg-spice-main-elevated p-3 ring-1 ring-transparent transition-all focus-within:bg-spice-highlight-elevated focus-within:ring-2 focus-within:!ring-spice-text hover:bg-spice-highlight-elevated hover:ring-spice-misc">
+            <SearchIcon className="size-6 fill-spice-subtext transition-colors group-focus-within:fill-spice-text group-hover:fill-spice-text" />
+            <input
+              type="text"
+              className="bg-transparent text-spice-text placeholder-spice-subtext"
+              placeholder="Search"
+            />
+          </div>
+          {/* TODO add custom scrollbar with transitions etc */}
+          <div className="relative flex w-full flex-col gap-1 overflow-auto">
             {artists.map((artist) => (
               <button
                 key={artist}
