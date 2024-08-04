@@ -1,8 +1,9 @@
 import { useResizeObserver, useLocalStorage } from "usehooks-ts";
 import { Response, ResponseItem } from "../types/fetch";
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useMemo } from "react";
 import { delegate } from "tippy.js";
 import { getCurrentArtist, getAlbumsByArtist } from "../utils/fetchHelpers";
+import { cn } from "../utils/general";
 
 const LOCAL_STORAGE_PREFIX = "better-artists";
 const ALBUM_FETCH_URL = "https://api.spotify.com/v1/me/albums?limit=50";
@@ -55,11 +56,16 @@ export default function MainView() {
 
   const [filteredAlbums, setFilteredAlbums] = useState<ResponseItem[]>([]);
 
+  const currentArtist = useMemo(
+    () => getCurrentArtist(),
+    [Spicetify.Platform.History.location.search],
+  );
+
   useEffect(() => {
-    const artist = getCurrentArtist();
-    if (artist) setFilteredAlbums(getAlbumsByArtist(artist, albums));
+    if (currentArtist)
+      setFilteredAlbums(getAlbumsByArtist(currentArtist, albums));
     else setFilteredAlbums([]);
-  }, [Spicetify.Platform.History.location.search]);
+  }, [currentArtist]);
 
   const setArtist = (artist: string) => {
     Spicetify.Platform.History.push(`/better-artists/?artist=${artist}`);
@@ -109,6 +115,8 @@ export default function MainView() {
     ).sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
     setAlbums(state);
     setArtists(artists);
+    if (currentArtist)
+      setFilteredAlbums(getAlbumsByArtist(currentArtist, state));
   }, [isFetching]);
 
   const clearCache = () => {
@@ -141,7 +149,11 @@ export default function MainView() {
             {artists.map((artist) => (
               <button
                 key={artist}
-                className="rounded-md p-3 text-start hover:bg-spice-card"
+                className={cn(
+                  "cursor-pointer rounded-md p-3 text-start hover:bg-spice-card",
+                  artist === currentArtist &&
+                    "hover:bg-spice-selected-row/30 bg-spice-selected-row/30 text-spice-text",
+                )}
                 onClick={() => setArtist(artist)}
               >
                 {artist}
