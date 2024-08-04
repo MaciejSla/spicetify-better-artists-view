@@ -5,6 +5,7 @@ import { delegate } from "tippy.js";
 import { getCurrentArtist, getAlbumsByArtist } from "../utils/fetchHelpers";
 import { cn } from "../utils/general";
 import { SearchIcon } from "./icons";
+import fuzzysort from "fuzzysort";
 
 const LOCAL_STORAGE_PREFIX = "better-artists";
 const ALBUM_FETCH_URL = "https://api.spotify.com/v1/me/albums?limit=50";
@@ -134,6 +135,20 @@ export default function MainView() {
     ...Spicetify.TippyProps,
   });
 
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const onInputFocus = () => {
+    inputRef.current?.focus();
+  };
+
+  // TODO maybe put this into params as well?
+  const [searchValue, setSearchValue] = useState("");
+  const onSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(e.target.value);
+  };
+
+  const filteredArtists = fuzzysort.go(searchValue, artists, { all: true });
+
   return (
     <div className="relative flex h-full w-full flex-col items-start gap-6 text-spice-subtext">
       {/* TODO: figure out how to have a header without weird scroll */}
@@ -146,27 +161,33 @@ export default function MainView() {
           style={mainContentPosition}
         >
           {/* TODO: add highlight and scroll to the selected artist */}
-          <div className="group flex items-center gap-2 rounded-full bg-spice-main-elevated p-3 ring-1 ring-transparent transition-all focus-within:bg-spice-highlight-elevated focus-within:ring-2 focus-within:!ring-spice-text hover:bg-spice-highlight-elevated hover:ring-spice-misc">
+          <div
+            className="group flex cursor-pointer items-center gap-2 rounded-full bg-spice-main-elevated p-3 ring-1 ring-transparent transition-all focus-within:bg-spice-highlight-elevated focus-within:ring-2 focus-within:!ring-spice-text hover:bg-spice-highlight-elevated hover:ring-spice-misc"
+            onClick={onInputFocus}
+          >
             <SearchIcon className="size-6 fill-spice-subtext transition-colors group-focus-within:fill-spice-text group-hover:fill-spice-text" />
             <input
+              ref={inputRef}
               type="text"
-              className="bg-transparent text-spice-text placeholder-spice-subtext"
+              className="w-full cursor-pointer bg-transparent text-spice-text placeholder-spice-subtext focus:cursor-text"
               placeholder="Search"
+              value={searchValue}
+              onChange={onSearchChange}
             />
           </div>
           {/* TODO add custom scrollbar with transitions etc */}
           <div className="relative flex w-full flex-col gap-1 overflow-auto">
-            {artists.map((artist) => (
+            {filteredArtists.map((result) => (
               <button
-                key={artist}
+                key={result.target}
                 className={cn(
                   "cursor-pointer rounded-md p-3 text-start hover:bg-spice-card",
-                  artist === currentArtist &&
+                  result.target === currentArtist &&
                     "hover:bg-spice-selected-row/30 bg-spice-selected-row/30 text-spice-text",
                 )}
-                onClick={() => setArtist(artist)}
+                onClick={() => setArtist(result.target)}
               >
-                {artist}
+                {result.target}
               </button>
             ))}
           </div>

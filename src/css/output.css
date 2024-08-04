@@ -934,6 +934,10 @@ video {
   --tw-ring-color: rgba(var(--spice-rgb-misc), var(--tw-ring-opacity));
 }
 
+.focus\:cursor-text:focus {
+  cursor: text;
+}
+
 .group:focus-within .group-focus-within\:fill-spice-text {
   fill: rgba(var(--spice-rgb-text), 1);
 }
