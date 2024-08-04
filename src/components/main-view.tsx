@@ -1,5 +1,5 @@
 import { useResizeObserver, useLocalStorage } from "usehooks-ts";
-import { Response, ResponseItem } from "../types/fetch";
+import { Artist, Response, ResponseItem } from "../types/fetch";
 import React, { useRef, useState, useEffect, useMemo } from "react";
 import { delegate } from "tippy.js";
 import { getCurrentArtist, getAlbumsByArtist } from "../utils/fetchHelpers";
@@ -45,7 +45,7 @@ export default function MainView() {
   // });
 
   const [isFetching, setIsFetching] = useState(true);
-  const [artists, setArtists, removeArtists] = useLocalStorage<string[]>(
+  const [artists, setArtists, removeArtists] = useLocalStorage<Artist[]>(
     `${LOCAL_STORAGE_PREFIX}:artists`,
     [],
   );
@@ -64,9 +64,15 @@ export default function MainView() {
   );
 
   useEffect(() => {
-    if (currentArtist)
+    if (currentArtist) {
+      const artist = document.getElementById(`${currentArtist}-ref`);
+      artist &&
+        artist.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
       setFilteredAlbums(getAlbumsByArtist(currentArtist, albums));
-    else setFilteredAlbums([]);
+    } else setFilteredAlbums([]);
   }, [currentArtist]);
 
   const setArtist = (artist: string) => {
@@ -104,17 +110,17 @@ export default function MainView() {
 
   useEffect(() => {
     if (isFetching) return;
-    const artists: string[] = Array.from(
+    const artists: Artist[] = Array.from(
       new Set(
-        // TODO try to make artist grouping more customizable
-        // state.map((item) => {
-        //   const artists = item.album.artists.map((a) => a as Artist);
-        //   console.log("Artists", artists);
-        //   return item.album.artists[0].name;
-        // }),
-        state.map((item) => item.album.artists.map((a) => a.name).join(", ")),
+        // TODO try to make artist grouping customizable
+        state
+          .map((item) => item.album.artists)
+          .flat()
+          .map((a) => JSON.stringify(a)),
       ),
-    ).sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+    )
+      .map((item) => JSON.parse(item))
+      .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
     setAlbums(state);
     setArtists(artists);
     if (currentArtist)
@@ -147,7 +153,10 @@ export default function MainView() {
     setSearchValue(e.target.value);
   };
 
-  const filteredArtists = fuzzysort.go(searchValue, artists, { all: true });
+  const filteredArtists = fuzzysort.go(searchValue, artists, {
+    all: true,
+    key: "name",
+  });
 
   return (
     <div className="relative flex h-full w-full flex-col items-start gap-6 text-spice-subtext">
@@ -179,6 +188,7 @@ export default function MainView() {
           <div className="relative flex w-full flex-col gap-1 overflow-auto">
             {filteredArtists.map((result) => (
               <button
+                id={`${result.target}-ref`}
                 key={result.target}
                 className={cn(
                   "cursor-pointer rounded-md p-3 text-start hover:bg-spice-card",

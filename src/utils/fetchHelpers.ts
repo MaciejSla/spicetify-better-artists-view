@@ -10,9 +10,7 @@ export const getCurrentArtist = () => {
 
 export const getAlbumsByArtist = (artist: string, albums: ResponseItem[]) => {
   return albums
-    .filter(
-      (album) => album.album.artists.map((a) => a.name).join(", ") === artist,
-    )
+    .filter((album) => album.album.artists.map((a) => a.name).includes(artist))
     .sort(
       (a, b) =>
         new Date(b.album.release_date).getTime() -
