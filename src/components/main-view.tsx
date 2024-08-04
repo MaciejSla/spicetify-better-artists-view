@@ -160,10 +160,6 @@ export default function MainView() {
 
   return (
     <div className="relative flex h-full w-full flex-col items-start gap-6 text-spice-subtext">
-      {/* TODO: figure out how to have a header without weird scroll */}
-      {/* <div className="px-10 text-5xl" ref={refHeader}>
-          Better Artists View
-        </div> */}
       <div className="flex w-full flex-row-reverse items-start">
         <div
           className="absolute left-0 flex w-1/4 flex-col gap-2 pl-1"
