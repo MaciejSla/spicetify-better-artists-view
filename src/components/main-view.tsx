@@ -170,7 +170,7 @@ export default function MainView() {
               ref={inputRef}
               type="text"
               className="w-full cursor-pointer bg-transparent text-spice-text placeholder-spice-subtext focus:cursor-text"
-              placeholder="Search"
+              placeholder="Search in Artists"
               value={searchValue}
               onChange={onSearchChange}
             />
@@ -183,7 +183,7 @@ export default function MainView() {
                 className={cn(
                   "cursor-pointer rounded-md p-3 text-start hover:bg-spice-card",
                   result.target === currentArtist &&
-                    "hover:bg-spice-selected-row/30 bg-spice-selected-row/30 text-spice-text",
+                    "bg-spice-selected-row/30 text-spice-text hover:bg-spice-selected-row/30",
                 )}
                 onClick={() => setArtist(result.target)}
               >
@@ -198,9 +198,13 @@ export default function MainView() {
         >
           <div className="flex w-full items-center justify-between">
             <div className="text-3xl">Albums count: {albums.length}</div>
-            <Spicetify.ReactComponent.ButtonTertiary onClick={clearCache}>
+            <button
+              className="rounded-full px-3 py-1 font-bold ring-1 ring-spice-subtext hover:scale-105 hover:text-spice-text hover:ring-spice-text"
+              type="button"
+              onClick={clearCache}
+            >
               Clear cache
-            </Spicetify.ReactComponent.ButtonTertiary>
+            </button>
           </div>
           <div>Width: {wMain}</div>
           {filteredAlbums.length == 0 ? (
