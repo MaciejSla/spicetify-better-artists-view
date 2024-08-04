@@ -247,7 +247,7 @@ export default function MainView() {
                 className="flex h-full flex-col gap-1 rounded-md p-4 hover:bg-spice-highlight hover:no-underline"
               >
                 <img
-                  src={album.album.images ? album.album.images[1].url : ""}
+                  src={album.album.images ? album.album.images[1]?.url : ""}
                   alt={album.album.name}
                   className="aspect-square w-full rounded-md"
                 />
