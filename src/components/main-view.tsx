@@ -4,7 +4,7 @@ import React, { useRef, useState, useEffect, useMemo } from "react";
 import { delegate } from "tippy.js";
 import { getCurrentArtist, getAlbumsByArtist } from "../utils/fetchHelpers";
 import { cn } from "../utils/general";
-import { SearchIcon } from "./icons";
+import { Icon } from "./icon";
 import fuzzysort from "fuzzysort";
 
 export const LOCAL_STORAGE_PREFIX = "better-artists";
@@ -165,7 +165,10 @@ export default function MainView() {
             className="group flex cursor-pointer items-center gap-2 rounded-full bg-spice-main-elevated p-3 ring-1 ring-transparent transition-all focus-within:bg-spice-highlight-elevated focus-within:ring-2 focus-within:!ring-spice-text hover:bg-spice-highlight-elevated hover:ring-spice-misc"
             onClick={onInputFocus}
           >
-            <SearchIcon className="size-6 fill-spice-subtext transition-colors group-focus-within:fill-spice-text group-hover:fill-spice-text" />
+            <Icon
+              name="search"
+              className="size-7 fill-spice-subtext transition-colors group-focus-within:fill-spice-text group-hover:fill-spice-text"
+            />
             <input
               ref={inputRef}
               type="text"
