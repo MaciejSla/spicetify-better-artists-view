@@ -203,6 +203,9 @@ export default function MainView() {
             </Spicetify.ReactComponent.ButtonTertiary>
           </div>
           <div>Width: {wMain}</div>
+          {filteredAlbums.length == 0 ? (
+            <div className="text-xl text-spice-text">Colors cheat sheet</div>
+          ) : null}
           <div
             id="tippy-root"
             className={`grid items-start ${
@@ -228,7 +231,7 @@ export default function MainView() {
                           : "text-white mix-blend-difference"
                       }
                     >
-                      {color}
+                      {color.slice(3)}
                     </span>
                   </div>
                 ))
