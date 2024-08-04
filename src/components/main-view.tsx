@@ -39,11 +39,6 @@ export default function MainView() {
 
   const mainContentPosition = { height: hMain - 65, top: 65 };
 
-  // const refHeader = useRef<HTMLDivElement>(null);
-  // const { height: hHeader = 0 } = useResizeObserver({
-  //   ref: refHeader,
-  // });
-
   const [isFetching, setIsFetching] = useState(true);
   const [artists, setArtists, removeArtists] = useLocalStorage<Artist[]>(
     `${LOCAL_STORAGE_PREFIX}:artists`,
