@@ -59,6 +59,8 @@ export default function MainView() {
   );
 
   useEffect(() => {
+    console.log(currentArtist);
+
     if (currentArtist) {
       const artist = document.getElementById(`${currentArtist}-ref`);
       artist &&
@@ -71,7 +73,10 @@ export default function MainView() {
   }, [currentArtist]);
 
   const setArtist = (artist: string) => {
-    Spicetify.Platform.History.push(`/better-artists/?artist=${artist}`);
+    Spicetify.Platform.History.push(
+      `/better-artists/?artist=${encodeURIComponent(artist)}`,
+    );
+    console.log(getAlbumsByArtist(artist, albums));
   };
 
   const opts = {
@@ -92,7 +97,7 @@ export default function MainView() {
         .then((data: Response) => {
           setState((state) => state.concat(data.items));
           setUrl(data.next);
-          console.log(data);
+          // console.log(data);
         })
         .catch((error) => {
           console.log(error);

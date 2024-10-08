@@ -1,9 +1,11 @@
 import type { ResponseItem } from "../types/fetch";
 
 export const getCurrentArtist = () => {
-  const artist = new URLSearchParams(
+  const artistRaw = new URLSearchParams(
     Spicetify.Platform.History.location.search,
   ).get("artist");
+
+  const artist = decodeURIComponent(artistRaw ?? "");
 
   return artist;
 };
