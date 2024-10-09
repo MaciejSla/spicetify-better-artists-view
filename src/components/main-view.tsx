@@ -286,20 +286,17 @@ export default function MainView() {
           ) : null}
           <div
             id="tippy-root"
-            className={`grid items-start gap-1 ${
-              wMain > 1100
-                ? "grid-cols-4"
-                : wMain > 850
-                  ? "grid-cols-3"
-                  : wMain > 650
-                    ? "grid-cols-2"
-                    : "grid-cols-1"
-            }`}
+            className={cn(
+              "grid grid-cols-1 items-start gap-1",
+              wMain > 650 && "grid-cols-2",
+              wMain > 850 && "grid-cols-3",
+              wMain > 1100 && "grid-cols-4",
+            )}
           >
             {filteredAlbums.length == 0
               ? COLORS.map((color) => (
                   <div
-                    className={`${color} flex size-full items-center justify-center py-20`}
+                    className={`${color} flex aspect-square size-full items-center justify-center py-20`}
                     key={color}
                   >
                     <span
