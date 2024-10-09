@@ -1402,6 +1402,16 @@ declare namespace Spicetify {
 
   /** Stock React components exposed from Spotify library */
   namespace ReactComponent {
+    namespace Cards {
+      type AlbumProps = {
+        name: string;
+        artists: ArtistsEntity[];
+        images: ImagesEntity[];
+        uri: string;
+        year: number;
+      };
+      function Album(props: AlbumProps): JSX.Element;
+    }
     type ContextMenuProps = {
       /**
        * Decide whether to use the global singleton context menu (rendered in <body>)

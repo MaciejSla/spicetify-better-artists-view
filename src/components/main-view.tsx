@@ -333,7 +333,7 @@ export default function MainView() {
               <Spicetify.ReactComponent.Cards.Album
                 name={album.album.name}
                 artists={album.album.artists}
-                images={album.album.images}
+                images={album.album.images! ?? []}
                 uri={album.album.uri}
                 year={new Date(album.album.release_date).getFullYear()}
               ></Spicetify.ReactComponent.Cards.Album>
