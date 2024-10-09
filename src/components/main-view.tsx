@@ -228,7 +228,7 @@ export default function MainView() {
           ) : null}
           <div
             id="tippy-root"
-            className={`grid items-start ${
+            className={`grid items-start gap-1 ${
               wMain > 1100
                 ? "grid-cols-4"
                 : wMain > 850
@@ -260,14 +260,14 @@ export default function MainView() {
               <a
                 href={album.album.uri}
                 key={album.album.id}
-                className="flex h-full flex-col gap-1 rounded-md p-4 hover:bg-spice-highlight hover:no-underline"
+                className="group relative flex h-full flex-col gap-1 rounded-md p-4 hover:no-underline"
               >
                 <img
                   src={album.album.images ? album.album.images[1]?.url : ""}
                   alt={album.album.name}
-                  className="aspect-square w-full rounded-md"
+                  className="z-30 aspect-square w-full rounded-md"
                 />
-                <div className="flex flex-col gap-1">
+                <div className="z-30 flex flex-col gap-1">
                   <div
                     data-tippy-content={album.album.name}
                     className="line-clamp-1 text-base text-spice-text hover:underline"
@@ -287,6 +287,7 @@ export default function MainView() {
                     {new Date(album.album.release_date).getFullYear()}
                   </h3>
                 </div>
+                <div className="absolute right-0 top-0 z-0 flex size-full scale-90 rounded-md transition-all duration-300 group-hover:scale-100 group-hover:bg-spice-main-elevated"></div>
               </a>
             ))}
           </div>
