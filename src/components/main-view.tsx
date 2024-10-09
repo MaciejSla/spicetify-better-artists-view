@@ -79,6 +79,11 @@ export default function MainView() {
     console.log(getAlbumsByArtist(artist, albums));
   };
 
+  // * Dev only, remove later
+  const clearArtist = () => {
+    Spicetify.Platform.History.push("/better-artists/");
+  };
+
   const opts = {
     headers: {
       Authorization: "Bearer " + Spicetify.Platform.Session.accessToken,
@@ -214,6 +219,13 @@ export default function MainView() {
         >
           <div className="flex w-full items-center justify-between">
             <div className="text-3xl">Albums count: {albums.length}</div>
+            <button
+              className="rounded-full px-3 py-1 font-bold ring-1 ring-spice-subtext hover:scale-105 hover:text-spice-text hover:ring-spice-text"
+              type="button"
+              onClick={clearArtist}
+            >
+              Clear artist
+            </button>
             <button
               className="rounded-full px-3 py-1 font-bold ring-1 ring-spice-subtext hover:scale-105 hover:text-spice-text hover:ring-spice-text"
               type="button"
