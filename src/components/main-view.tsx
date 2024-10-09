@@ -1,5 +1,11 @@
 import { useResizeObserver, useLocalStorage } from "usehooks-ts";
-import { Artist, Response, ResponseItem } from "../types/fetch";
+import type {
+  ResponseArtist,
+  AlbumArtist,
+  Artist,
+  Response,
+  ResponseItem,
+} from "../types/fetch";
 import React, { useRef, useState, useEffect, useMemo } from "react";
 import { delegate } from "tippy.js";
 import { getCurrentArtist, getAlbumsByArtist } from "../utils/fetchHelpers";
@@ -9,6 +15,7 @@ import fuzzysort from "fuzzysort";
 
 const LOCAL_STORAGE_PREFIX = "better-artists";
 const ALBUM_FETCH_URL = "https://api.spotify.com/v1/me/albums?limit=50";
+const ARTIST_FETCH_URL = "https://api.spotify.com/v1/artists?ids=";
 const COLORS = [
   "bg-spice-text",
   "bg-spice-subtext",
@@ -50,6 +57,13 @@ export default function MainView() {
     `${LOCAL_STORAGE_PREFIX}:albums`,
     [],
   );
+
+  // ? Is this anything?
+  // const [currentArtist, setCurrentArtist, removeCurrentArtist] =
+  //   useLocalStorage<string>(
+  //     `${LOCAL_STORAGE_PREFIX}:currentArtist`,
+  //     artists[0]?.name ?? "",
+  //   );
 
   const [filteredAlbums, setFilteredAlbums] = useState<ResponseItem[]>([]);
 
@@ -115,7 +129,7 @@ export default function MainView() {
 
   useEffect(() => {
     if (isFetching) return;
-    const artists: Artist[] = Array.from(
+    const artists: AlbumArtist[] = Array.from(
       new Set(
         // TODO try to make artist grouping customizable
         state
@@ -126,8 +140,33 @@ export default function MainView() {
     )
       .map((item) => JSON.parse(item))
       .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
+    const artistIds = artists.map((a) => a.id);
+    const artistsLen = artistIds.length;
+    let artistFetchUrls = [];
+    for (let i = 0; i < artistsLen; i += 50) {
+      artistFetchUrls.push(
+        ARTIST_FETCH_URL + artistIds.slice(i, i + 50).join(","),
+      );
+    }
+    Promise.all(artistFetchUrls.map((url) => fetch(url, opts)))
+      .then((values) => {
+        return Promise.all(values.map((val) => val.json()));
+      })
+      .then((data: { artists: ResponseArtist[] }[]) => {
+        const artists: Artist[] = data
+          .map((d) => d.artists)
+          .flat()
+          .map((artist) => ({
+            id: artist.id,
+            name: artist.name,
+            imageUrl: artist.images.at(-1)!,
+            uri: artist.uri,
+            type: artist.type,
+          }));
+        console.log(artists);
+        setArtists(artists);
+      });
     setAlbums(state);
-    setArtists(artists);
     if (currentArtist)
       setFilteredAlbums(getAlbumsByArtist(currentArtist, state));
   }, [isFetching]);
@@ -195,13 +234,20 @@ export default function MainView() {
                 id={`${result.target}-ref`}
                 key={result.target}
                 className={cn(
-                  "cursor-pointer rounded-md p-3 text-start hover:bg-spice-card",
+                  "flex cursor-pointer items-center gap-2 rounded-md p-3 text-start hover:bg-spice-card",
                   result.target === currentArtist &&
                     "bg-spice-selected-row/30 text-spice-text hover:bg-spice-selected-row/30",
+                  wMain <= 740 && "flex-col justify-center text-center",
                 )}
                 onClick={() => setArtist(result.target)}
               >
+                <img
+                  src={result.obj.imageUrl.url}
+                  alt={result.obj.name}
+                  className="size-10 rounded-full"
+                />
                 <span
+                  className={cn(wMain <= 500 && "line-clamp-2")}
                   dangerouslySetInnerHTML={{
                     __html: result.highlight(
                       '<span class="font-bold text-spice-text">',
