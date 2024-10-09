@@ -120,7 +120,7 @@ export default function MainView() {
         })
         .catch((error) => {
           console.log(error);
-          Spicetify.showNotification("Error fetching albums");
+          Spicetify.showNotification("Error fetching albums", true);
         });
     } else {
       setIsFetching(false);
@@ -163,8 +163,21 @@ export default function MainView() {
             uri: artist.uri,
             type: artist.type,
           }));
-        console.log(artists);
         setArtists(artists);
+      })
+      .catch((error) => {
+        console.log(error);
+        Spicetify.showNotification("Error fetching artist images", true);
+        setArtists(
+          artists.map((artist) => ({
+            ...artist,
+            imageUrl: {
+              url: "https://media.tenor.com/DFfCL02_DCcAAAAM/cat-look.gif",
+              width: 0,
+              height: 0,
+            },
+          })),
+        );
       });
     setAlbums(state);
     if (currentArtist)
@@ -244,7 +257,7 @@ export default function MainView() {
                 <img
                   src={result.obj.imageUrl.url}
                   alt={result.obj.name}
-                  className="size-10 rounded-full"
+                  className="size-10 rounded-full object-cover"
                 />
                 <span
                   className={cn(wMain <= 500 && "line-clamp-2")}
