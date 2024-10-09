@@ -7,8 +7,8 @@ import { cn } from "../utils/general";
 import { Icon } from "./icon";
 import fuzzysort from "fuzzysort";
 
-export const LOCAL_STORAGE_PREFIX = "better-artists";
-export const ALBUM_FETCH_URL = "https://api.spotify.com/v1/me/albums?limit=50";
+const LOCAL_STORAGE_PREFIX = "better-artists";
+const ALBUM_FETCH_URL = "https://api.spotify.com/v1/me/albums?limit=50";
 const COLORS = [
   "bg-spice-text",
   "bg-spice-subtext",
