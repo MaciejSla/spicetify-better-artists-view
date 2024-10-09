@@ -34,6 +34,9 @@ module.exports = {
           misc: "rgba(var(--spice-rgb-misc), <alpha-value>)",
         },
       },
+      transitionTimingFunction: {
+        ease: "var(--animation-ease)",
+      },
     },
   },
   plugins: [],

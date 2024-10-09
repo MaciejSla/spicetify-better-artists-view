@@ -241,15 +241,13 @@ export default function MainView() {
             />
           </div>
           {/* TODO add custom scrollbar with transitions etc */}
-          <div className="relative flex w-full flex-col gap-1 overflow-auto">
+          <div className="relative flex w-full flex-col overflow-auto">
             {filteredArtists.map((result) => (
               <button
                 id={`${result.target}-ref`}
                 key={result.target}
                 className={cn(
-                  "flex cursor-pointer items-center gap-2 rounded-md p-3 text-start hover:bg-spice-card",
-                  result.target === currentArtist &&
-                    "bg-spice-selected-row/30 text-spice-text hover:bg-spice-selected-row/30",
+                  "group relative flex cursor-pointer items-center gap-2 rounded-md p-3 text-start",
                   wMain <= 740 && "flex-col justify-center text-center",
                 )}
                 onClick={() => setArtist(result.target)}
@@ -257,10 +255,10 @@ export default function MainView() {
                 <img
                   src={result.obj.imageUrl.url}
                   alt={result.obj.name}
-                  className="size-10 rounded-full object-cover"
+                  className="z-20 size-10 rounded-full object-cover"
                 />
                 <span
-                  className={cn(wMain <= 500 && "line-clamp-2")}
+                  className={cn("z-20", wMain <= 500 && "line-clamp-2")}
                   dangerouslySetInnerHTML={{
                     __html: result.highlight(
                       '<span class="font-bold text-spice-text">',
@@ -268,6 +266,13 @@ export default function MainView() {
                     ),
                   }}
                 ></span>
+                <div
+                  className={cn(
+                    "ease-ease absolute right-0 top-0 z-0 flex size-full scale-90 rounded-md transition-all duration-300 group-hover:scale-100 group-hover:bg-spice-card",
+                    result.target === currentArtist &&
+                      "scale-100 bg-spice-card text-spice-text group-hover:bg-spice-selected-row/30",
+                  )}
+                ></div>
               </button>
             ))}
           </div>
@@ -300,7 +305,7 @@ export default function MainView() {
           <div
             id="tippy-root"
             className={cn(
-              "grid grid-cols-1 items-start gap-1",
+              "grid grid-cols-1 items-start",
               wMain > 650 && "grid-cols-2",
               wMain > 850 && "grid-cols-3",
               wMain > 1100 && "grid-cols-4",
@@ -325,38 +330,13 @@ export default function MainView() {
                 ))
               : null}
             {filteredAlbums.map((album) => (
-              <a
-                href={album.album.uri}
-                key={album.album.id}
-                className="group relative flex h-full flex-col gap-1 rounded-md p-4 hover:no-underline"
-              >
-                <img
-                  src={album.album.images ? album.album.images[1]?.url : ""}
-                  alt={album.album.name}
-                  className="z-30 aspect-square w-full rounded-md"
-                />
-                <div className="z-30 flex flex-col gap-1">
-                  <div
-                    data-tippy-content={album.album.name}
-                    className="line-clamp-1 text-base text-spice-text hover:underline"
-                  >
-                    {album.album.name}
-                  </div>
-                  <h3
-                    data-tippy-content={Spicetify.Locale.formatDate(
-                      new Date(album.album.release_date),
-                      {
-                        year: "numeric",
-                        month: "short",
-                        day: "numeric",
-                      },
-                    )}
-                  >
-                    {new Date(album.album.release_date).getFullYear()}
-                  </h3>
-                </div>
-                <div className="absolute right-0 top-0 z-0 flex size-full scale-90 rounded-md transition-all duration-300 group-hover:scale-100 group-hover:bg-spice-main-elevated"></div>
-              </a>
+              <Spicetify.ReactComponent.Cards.Album
+                name={album.album.name}
+                artists={album.album.artists}
+                images={album.album.images}
+                uri={album.album.uri}
+                year={new Date(album.album.release_date).getFullYear()}
+              ></Spicetify.ReactComponent.Cards.Album>
             ))}
           </div>
         </div>
