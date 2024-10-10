@@ -1,7 +1,7 @@
 import React from "react";
 import type { Album } from "../types/fetch";
 
-export function CustomAlbumCard(album: Album) {
+export function CustomAlbumCard({ album }: { album: Album }) {
   return (
     <a
       href={album.uri}
@@ -33,7 +33,7 @@ export function CustomAlbumCard(album: Album) {
           {new Date(album.release_date).getFullYear()}
         </h3>
       </div>
-      <div className="ease-ease absolute right-0 top-0 z-0 flex size-full scale-90 rounded-md transition-all duration-300 group-hover:scale-100 group-hover:bg-spice-main-elevated"></div>
+      <div className="absolute right-0 top-0 z-0 flex size-full scale-90 rounded-md transition-all duration-300 ease-ease group-hover:scale-100 group-hover:bg-spice-main-elevated"></div>
     </a>
   );
 }

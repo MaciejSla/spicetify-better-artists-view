@@ -1,4 +1,4 @@
-import { useResizeObserver, useLocalStorage } from "usehooks-ts";
+import { useResizeObserver, useLocalStorage, useBoolean } from "usehooks-ts";
 import type {
   ResponseArtist,
   AlbumArtist,
@@ -12,6 +12,7 @@ import { getCurrentArtist, getAlbumsByArtist } from "../utils/fetchHelpers";
 import { cn } from "../utils/general";
 import { Icon } from "./icon";
 import fuzzysort from "fuzzysort";
+import { CustomAlbumCard } from "./custom-album-card";
 
 const LOCAL_STORAGE_PREFIX = "better-artists";
 const ALBUM_FETCH_URL = "https://api.spotify.com/v1/me/albums?limit=50";
@@ -38,6 +39,12 @@ const COLORS = [
 ];
 
 export default function MainView() {
+  const {
+    value: isCustom,
+    setTrue: setCustom,
+    setFalse: setPremade,
+    toggle,
+  } = useBoolean(false);
   const el = document.querySelector<HTMLElement>(".Root__main-view");
   const refMain = useRef<HTMLElement>(el);
   const { height: hMain = 0, width: wMain = 0 } = useResizeObserver({
@@ -268,7 +275,7 @@ export default function MainView() {
                 ></span>
                 <div
                   className={cn(
-                    "ease-ease absolute right-0 top-0 z-0 flex size-full scale-90 rounded-md transition-all duration-300 group-hover:scale-100 group-hover:bg-spice-card",
+                    "absolute right-0 top-0 z-0 flex size-full scale-90 rounded-md transition-all duration-300 ease-ease group-hover:scale-100 group-hover:bg-spice-card",
                     result.target === currentArtist &&
                       "scale-100 bg-spice-card text-spice-text group-hover:bg-spice-selected-row/30",
                   )}
@@ -283,6 +290,14 @@ export default function MainView() {
         >
           <div className="flex w-full items-center justify-between">
             <div className="text-3xl">Albums count: {albums.length}</div>
+            <div className="flex items-center gap-2">
+              <Spicetify.ReactComponent.ButtonPrimary onClick={setCustom}>
+                Set Custom
+              </Spicetify.ReactComponent.ButtonPrimary>
+              <Spicetify.ReactComponent.ButtonPrimary onClick={setPremade}>
+                Set Premade
+              </Spicetify.ReactComponent.ButtonPrimary>
+            </div>
             <button
               className="rounded-full px-3 py-1 font-bold ring-1 ring-spice-subtext hover:scale-105 hover:text-spice-text hover:ring-spice-text"
               type="button"
@@ -329,15 +344,19 @@ export default function MainView() {
                   </div>
                 ))
               : null}
-            {filteredAlbums.map((album) => (
-              <Spicetify.ReactComponent.Cards.Album
-                name={album.album.name}
-                artists={album.album.artists}
-                images={album.album.images! ?? []}
-                uri={album.album.uri}
-                year={new Date(album.album.release_date).getFullYear()}
-              ></Spicetify.ReactComponent.Cards.Album>
-            ))}
+            {filteredAlbums.map((album) =>
+              isCustom ? (
+                <CustomAlbumCard album={album.album}></CustomAlbumCard>
+              ) : (
+                <Spicetify.ReactComponent.Cards.Album
+                  name={album.album.name}
+                  artists={album.album.artists}
+                  images={album.album.images! ?? []}
+                  uri={album.album.uri}
+                  year={new Date(album.album.release_date).getFullYear()}
+                ></Spicetify.ReactComponent.Cards.Album>
+              ),
+            )}
           </div>
         </div>
       </div>
