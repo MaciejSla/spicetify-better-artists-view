@@ -1,18 +1,15 @@
-# Spicetify Creator
+# Better Artists View
 
-Spicetify Creator is a tool to compile modern Typescript/Javascript code to Spicetify extensions and custom apps.
+A Spicetify Custom App that aims to bring Apple Music's artist view to Spotify.
 
-## Features
+## TODO/Roadmap
 
-- Typescript and React syntax
-- Import node packages
-- CSS/SCSS with PostCSS support
-- Extremely fast compile time with esbuild.
-- Plugins
-
-## Docs
-
-Check out [Spicetify's docs](https://spicetify.app/docs/development/spicetify-creator/the-basics)!
+- [ ] Ability to pin artist to the top of sidebar
+- [ ] Ability to hide artist + hidden artists tab
+- [ ] Add list view with expanded songs (similar to Apple Music)
+- [ ] Finish README
+- [x] ~~Albums grid view~~
+- [x] ~~Artist sidebar with search~~
 
 ## Made with Spicetify Creator
 
