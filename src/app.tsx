@@ -10,7 +10,7 @@ function App() {
     // This doesn't work for some reason
     // <QueryClientProvider client={queryClient}>
     <MainView />
-    // {/* </QueryClientProvider> */}
+    // </QueryClientProvider>
   );
 }
 

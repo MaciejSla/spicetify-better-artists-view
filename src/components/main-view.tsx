@@ -289,7 +289,18 @@ export default function MainView() {
           style={mainContentPosition}
         >
           <div className="flex w-full items-center justify-between">
-            <div className="text-3xl">Albums count: {albums.length}</div>
+            <div className="flex items-center gap-2 text-3xl">
+              Albums count: {albums.length}
+              {/* TODO - placeholder, replace with spinner later */}
+              {isFetching ? (
+                <Icon
+                  name="spotify"
+                  className="size-6 animate-spin fill-white"
+                />
+              ) : (
+                <div className="size-6"></div>
+              )}
+            </div>
             <div className="flex items-center gap-2">
               <Spicetify.ReactComponent.ButtonPrimary onClick={setCustom}>
                 Set Custom
